@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getMovies} from "./services/fakeMovieService";
+import { getMovies} from "../services/fakeMovieService";
 
 class Movie extends Component {
     constructor() {
@@ -41,6 +41,7 @@ class Movie extends Component {
                             <th scope="col">Genre</th>
                             <th scope="col">Stock</th>
                             <th scope="col">Rating</th>
+                            <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
