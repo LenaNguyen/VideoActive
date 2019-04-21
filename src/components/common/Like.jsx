@@ -1,13 +1,14 @@
 import React from 'react';
 
 const Like  = (props) =>{
+    const {onLike, active} = props;
     let classes = "fa fa-heart";
-    classes += props.active ? "" : "-o";
+    classes += active ? "" : "-o";
     
     return (
         <span className={classes} 
         style={{cursor:"pointer"}} aria-hidden="true" 
-        onClick={props.onLike}></span>
+        onClick={onLike}></span>
     )
 }
 
