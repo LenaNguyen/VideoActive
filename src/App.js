@@ -3,10 +3,15 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
+
+  handlePageChange = (page) => {
+    this.setState({page})
+    console.log(page);
+  }
   render() {
     return (
       <main className="container">
-      <Movies></Movies>
+      <Movies/>
       </main>
     );
   }
