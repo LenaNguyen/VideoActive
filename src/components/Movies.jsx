@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { getMovies} from "../services/fakeMovieService";
-import Like from './Like';
-import Pagination from './Pagination'
+import {getGenres} from '../services/fakeGenreService';
+import ListGroup from './common/ListGroup';
+import Like from './common/Like';
+import Pagination from './common/Pagination'
 import{paginate} from "../utils/paginate";
 
 class Movie extends Component {
     constructor() {
         super();
         this.state = {
+            genres: getGenres(),
             movies: getMovies(),
             pageSize: 4,
-            currentPage: 1
+            currentPage: 1,
+            currentGenre: "Thriller"
         }
     }
 
@@ -48,6 +52,10 @@ class Movie extends Component {
         this.setState({movies});
     }
 
+    handleGenreChange = () => {
+        
+    }
+
     handlePageChange = (page) => {
         // const {pageSize} = this.state;
         // const indexStart = page * pageSize - pageSize;
@@ -58,11 +66,13 @@ class Movie extends Component {
 
     render() {
         const {length: count} = this.state.movies;
-        const {pageSize, currentPage} = this.state;
+        const {pageSize, currentPage, genres, currentGenre} = this.state;
 
         return (
             <React.Fragment>
                 <p>{count ? `Showing ${count} movies in the database.` : "There are no movies in the database."}</p>
+                <div style={{display:"flex", justifyContent:"center"}}>
+                <ListGroup genres={genres} currentGenre={currentGenre} onGenreChange={this.handleGenreChange}/>
                 <table className="table">
                     <thead className="thead-dark">
                         <tr>
@@ -78,6 +88,7 @@ class Movie extends Component {
                         {this.displayMovies()}
                     </tbody>
                 </table>
+                </div>
                 <Pagination 
                     onPageChange={this.handlePageChange} 
                     pageSize={pageSize} 
