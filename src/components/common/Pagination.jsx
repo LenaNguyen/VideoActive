@@ -15,7 +15,7 @@ const Pagination = (props) => {
     <ul className="pagination">
     {
         pageNums.map(num => {
-            let classes = "page-item";
+            let classes = "page-item page-link ";
             if(num === currentPage) classes += " active"
             
             return (
