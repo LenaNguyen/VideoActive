@@ -21,6 +21,16 @@ class Movie extends Component {
         }
     }
 
+    getPageData = () => {
+        const {movies, sortColumn, currentPage, pageSize, selectedGenre} = this.state;
+        const filtered = selectedGenre && selectedGenre._id ? movies.filter(m => m.genre._id === selectedGenre._id) : movies;
+        const sorted =  _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+        
+        const pageMovies = paginate(sorted, currentPage, pageSize);
+
+        return {totalCount: filtered.length, data: pageMovies}
+    }
+
     handleDelete = (id) => {
         const curMovies = this.state.movies.filter(movie => movie._id !== id);
         this.setState({ movies: curMovies });
@@ -49,26 +59,24 @@ class Movie extends Component {
     }
 
     render() {
-        const { pageSize, currentPage, genres, selectedGenre, movies, sortColumn } = this.state;
-
-        const filtered = selectedGenre && selectedGenre._id ? movies.filter(m => m.genre._id === selectedGenre._id) : movies;
-        const sorted =  _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-        
-        const pageMovies = paginate(sorted, currentPage, pageSize);
+        const { pageSize, currentPage, genres, selectedGenre, sortColumn } = this.state;
+        const {totalCount, data} = this.getPageData();
 
         return (
             <div className="row">
-                <div className="col-3 col-sm col-xs">
+                <div className="col-md-3 col-12">
                     <ListGroup 
                         items={genres} 
                         selectedItem={selectedGenre} 
                         onItemSelect={this.handleGenreChange}
                         />
                 </div>
-                <div className="col col-sm col-xs">
-                    <p>{filtered.length ? `Showing ${filtered.length} movies in the database.` : "There are no movies in the database."}</p>
+                <div className="col-md col-12">
+                    <p className="mt-3">
+                        {totalCount ? `Showing ${totalCount} movies in the database.` : "There are no movies in the database."}
+                    </p>
                     <MoviesTable 
-                        movies={pageMovies}
+                        movies={data}
                         sortColumn={sortColumn} 
                         onLike={this.handleLike}   
                         onDelete={this.handleDelete}
@@ -76,7 +84,7 @@ class Movie extends Component {
                     <Pagination
                         onPageChange={this.handlePageChange}
                         pageSize={pageSize}
-                        itemsCount={filtered.length}
+                        itemsCount={totalCount}
                         currentPage={currentPage} />
                 </div>
             </div>
