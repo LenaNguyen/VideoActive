@@ -72,6 +72,7 @@ class Movie extends Component {
                         />
                 </div>
                 <div className="col-md col-12">
+                <button className="btn btn-primary">New Movie</button>
                     <p className="mt-3">
                         {totalCount ? `Showing ${totalCount} movies in the database.` : "There are no movies in the database."}
                     </p>

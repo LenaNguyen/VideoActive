@@ -3,7 +3,7 @@ import React from 'react';
 const ListGroup = (props) => {
     const {items, textProperty, valueProperty, selectedItem, onItemSelect} = props;
     return(
-        <ul className="list-group mt-3 " style={{paddingRight:"10px"}}>
+        <ul className="list-group mt-3 mb-3" style={{paddingRight:"10px"}}>
             {items.map(item => {
                 return (
                     <li  
