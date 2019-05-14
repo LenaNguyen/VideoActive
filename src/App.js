@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import axios from 'axios';
 import Movies from "./components/Movies";
 import Navbar from "./components/common/Navbar";
 import Customers from './components/Customers';
@@ -19,6 +20,10 @@ class App extends Component {
     { path: "/register", name: "Register"}
   ]
 
+  componentDidMount() {
+    axios.get();
+  }
+  
   render() {
     return (
       <React.Fragment>
