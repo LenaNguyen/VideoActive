@@ -93,29 +93,30 @@ class Movie extends Component {
 
     render() {
         const { pageSize, currentPage, genres, selectedGenre, sortColumn, searchQuery } = this.state;
-        const {totalCount, data} = this.getPageData();
+        const { totalCount, data } = this.getPageData();
+        const { user } = this.props;
 
         return (
             <div className="row">
                 <div className="col-md-3 col-12">
-                    <ListGroup 
-                        items={genres} 
-                        selectedItem={selectedGenre} 
+                    <ListGroup
+                        items={genres}
+                        selectedItem={selectedGenre}
                         onItemSelect={this.handleGenreChange}
-                        />
+                    />
                 </div>
                 <div className="col-md col-12">
-                <Link to='movies/new' className="btn btn-primary">New Movie</Link>
+                    {user && <Link to='movies/new' className="btn btn-primary">New Movie</Link>}
                     <p className="mt-3">
                         {totalCount ? `Showing ${totalCount} movies in the database.` : "There are no movies in the database."}
                     </p>
-                    <Search value={searchQuery} onChange={this.handleSearch}/>
-                    <MoviesTable 
+                    <Search value={searchQuery} onChange={this.handleSearch} />
+                    <MoviesTable
                         movies={data}
-                        sortColumn={sortColumn} 
-                        onLike={this.handleLike}   
+                        sortColumn={sortColumn}
+                        onLike={this.handleLike}
                         onDelete={this.handleDelete}
-                        onSort={this.handleSort}/>
+                        onSort={this.handleSort} />
                     <Pagination
                         onPageChange={this.handlePageChange}
                         pageSize={pageSize}
