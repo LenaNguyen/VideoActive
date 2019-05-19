@@ -52,7 +52,6 @@ class Movie extends Component {
 
     handleDelete = async id => {
         const originalMovies = this.state.movies;
-        console.log(id);
         const curMovies = originalMovies.filter(movie => movie._id !== id);
         this.setState({ movies: curMovies });
         try {
