@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from '../services/fakeGenreService';
+import { toast } from 'react-toastify';
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from '../services/genreService';
 import { paginate } from "../utils/paginate";
 import ListGroup from './common/ListGroup';
 import MoviesTable from './MoviesTable';
@@ -13,16 +14,23 @@ import _ from 'lodash';
 class Movie extends Component {
     constructor() {
         super();
-        const genres = [{_id: '', name: 'All Genres'}, ...getGenres()]
         this.state = {
-            genres,
-            movies: getMovies(),
+            genres: [],
+            movies: [],
             pageSize: 4,
             currentPage: 1,
             sortColumn: {path:'title', order: 'asc'},
             selectedGenre: null,
             searchQuery: ""
         }
+    }
+
+    async componentDidMount() {
+        const { data } = await getGenres();
+        const genres = [{_id: '', name: 'All Genres'}, ...data];
+
+        const { data: movies } = await getMovies();
+        this.setState({movies, genres});
     }
 
     getPageData = () => {
@@ -42,9 +50,20 @@ class Movie extends Component {
         return {totalCount: filtered.length, data: pageMovies}
     }
 
-    handleDelete = (id) => {
-        const curMovies = this.state.movies.filter(movie => movie._id !== id);
+    handleDelete = async id => {
+        const originalMovies = this.state.movies;
+        console.log(id);
+        const curMovies = originalMovies.filter(movie => movie._id !== id);
         this.setState({ movies: curMovies });
+        try {
+            await deleteMovie(id);
+        }
+        catch(ex) {
+            if(ex.response && ex.response.sattus === 404)
+                toast.error('This movie has already been deleted');
+            this.setState({movies: originalMovies});
+        }
+        
     }
 
     handleLike = (id) => {

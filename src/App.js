@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
 import Movies from "./components/Movies";
 import Navbar from "./components/common/Navbar";
 import Customers from './components/Customers';
@@ -9,6 +9,7 @@ import Rentals from "./components/rentals";
 import MovieForm from './components/MovieForm';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 class App extends Component {
@@ -19,14 +20,11 @@ class App extends Component {
     { path: "/login", name: "Login"},
     { path: "/register", name: "Register"}
   ]
-
-  componentDidMount() {
-    axios.get();
-  }
   
   render() {
     return (
       <React.Fragment>
+        <ToastContainer/>
         <Navbar title="VideoActive" links={this.links} />
         <main className="container">
           <Switch>
